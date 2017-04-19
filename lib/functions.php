@@ -118,68 +118,6 @@ class Statistics {
 		return $result;
 	}
 	
-/*	function stats_details($details,$array){
-		global $link,$options;
-		$output = Array();
-		
-		if ($details=='keyword'){
-			$data = "keyword";
-			$where = "ref LIKE '%".$array['val']."%' AND";
-		} elseif ($details=='landing'){	
-			$data = "url";
-			if ($array['val']=="NO-REF") $where = "ref = '' AND";
-			elseif ($array['val']=="registered") $where = "user NOT LIKE '%guest%' AND";
-			elseif ($array['val']=="total") $where = "ref NOT LIKE '%".$_SERVER['SERVER_NAME']."%' AND";
-			else $where = "ref LIKE '%".$array['val']."%' AND";
-		} elseif ($details=='refs'){
-			$data = "ref";
-			$where = "ref LIKE '%".$array['val']."%' AND";
-		} elseif ($details=='usernames'){
-			$data = "user";
-			$where = "user NOT LIKE '%guest%' AND";
-		} elseif ($details=='platform'){
-			$result = $this->stats_display_platform($array['val']);
-			return $result;
-		} elseif ($details=='country'){
-			$result = $this->stats_display_country($array['val']);
-			return $result;
-		}
-		if (isset($_POST['errors'])) $where .= " code NOT IN (403,404) AND";
-		
-		$dateStart = date('Y-m-d H:i:s', mktime(0, 0, 0, date("m",strtotime($_SESSION['dateStart']))  , date("d",strtotime($_SESSION['dateStart'])), date("Y",strtotime($_SESSION['dateStart']))));
-		$dateEnd = date('Y-m-d H:i:s', mktime(0, 0, 0, date("m",strtotime($_SESSION['dateEnd']))  , date("d",strtotime($_SESSION['dateEnd']))+1, date("Y",strtotime($_SESSION['dateEnd']))));	
-		
-		$q = "SELECT ".$options['table'].".date FROM ".$options['table']." ORDER BY ".$options['table'].".date LIMIT 1";	
-		$res = mysqli_fetch_assoc(mysqli_query($link,$q));
-		$dateAfterArchive = $res['date'];
-		
-		if ($dateStart>$dateAfterArchive) $q = "SELECT COUNT(".$data.") as amount,".$data.",code FROM ".$options['table']." WHERE $where ".$options['table'].".date BETWEEN '".$dateStart."' and '".$dateEnd."' GROUP BY ".$data." ORDER BY ".$data;
-		
-		elseif ($dateStart<$dateAfterArchive && $dateEnd>$dateAfterArchive) $q = "SELECT COUNT(".$data.") as amount,".$data.",code FROM ".$options['table']."_history WHERE $where ".$options['table']."_history.date BETWEEN '".$dateStart."' and '".$dateEnd."' UNION ALL SELECT COUNT(".$data.") as amount,".$data.",code FROM ".$options['table']." WHERE $where ".$options['table'].".date BETWEEN '".$dateStart."' and '".$dateEnd."' GROUP BY ".$data." ORDER BY ".$data;
-		
-		elseif ($dateEnd<$dateAfterArchive) $q = "SELECT COUNT(".$data.") as amount,".$data.",code FROM ".$options['table']."_history WHERE $where ".$options['table']."_history.date BETWEEN '".$dateStart."' and '".$dateEnd."' GROUP BY ".$data." ORDER BY ".$data;
-
-		$result = mysqli_query($link,$q);
-		while($res=mysqli_fetch_assoc($result)){
-			$output[$res[$data]]['amount'] = $res['amount'];
-			$output[$res[$data]]['code'] = $res['code'];
-		}
-		arsort($output);
-		$result = '<table class="statistics details" id="'.$array['val'].'"><thead><tr><th>'.ucwords($details).' : '.$array['val'].'</th><th>Amount</th></tr></thead>';
-		foreach ($output as $key => $value){		
-			if ($details=='keyword' || $details=='usernames'){
-				$result .= '<tr><td>'.$key.'</td><td>'.$value['amount'].'</td></tr>';
-			} elseif ($details=='landing'){
-				$result .= '<tr><td><a href="'.$key.'" target="_blank">'.$key.'</a></td><td>'.$value['amount'].'</td><td>'.$value['code'].'</td><td><a data-process="refs">Refs</a></td></tr>';
-			} elseif ($details=='refs'){
-				$result .= '<tr><td><a href="'.$key.'" target="_blank">'.$key.'</a></td><td>'.$value['amount'].'</td></tr>';
-			}
-		}
-		$result .= "</table>";
-		
-		return $result;
-	}*/
-	
 	function stats_display_country($domain){
 		arsort($_SESSION['stats'][$domain]['country']);
 		$countries = '<table class="statistics"><thead><tr><th>Country</th><th>Amount</th></tr></thead>';
